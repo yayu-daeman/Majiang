@@ -1,11 +1,10 @@
 /*!
  *
  *  paili.js
- *    
+ *
  *  Copyright(C) 2021 Yuya Maeda
  *  Released under the MIT license
- *  https://github.com/yayu-daeman/Majiang/blob/master/LICENSE
- * 
+ *
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
  *  https://github.com/kobalab/Majiang/blob/master/LICENSE
