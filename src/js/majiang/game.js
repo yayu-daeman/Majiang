@@ -31,7 +31,7 @@ constructor() {
 
     this._player = [];
 
-    this._hongpai = { m: 1, p: 1, s: 1 };
+    this._hongpai = { m: 0, p: 2, s: 2 };
     this._ranking_point = [20, 10, -10, -20];
 
     this._reply = [];

@@ -1,7 +1,11 @@
 /*!
  *
  *  paili.js
- *
+ *    
+ *  Copyright(C) 2021 Yuya Maeda
+ *  Released under the MIT license
+ *  https://github.com/yayu-daeman/Majiang/blob/master/LICENSE
+ * 
  *  Copyright(C) 2017 Satoshi Kobayashi
  *  Released under the MIT license
  *  https://github.com/kobalab/Majiang/blob/master/LICENSE
@@ -34,7 +38,7 @@ function qipai(paistr) {
         make_shan(model.shan, model.shoupai.toString());
     } else {
         let pai = [];
-        while (pai.length < 13) { pai.push(model.shan.zimo()) }
+        while (pai.length < 12) { pai.push(model.shan.zimo()) }
         model.shoupai = new Majiang.Shoupai(pai);
     }
 

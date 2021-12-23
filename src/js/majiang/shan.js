@@ -15,8 +15,9 @@ constructor(hongpai = {m:0,p:0,s:0}) {
     for (let s of ['m','p','s','z']) {
         for (let n = 1; n <= (s == 'z' ? 7 : 9); n++) {
             for (let i = 0; i < 4; i++) {
-                if (hongpai[s] && n == 5 && i < hongpai[s]) pai.push(s+0);
-                else                                        pai.push(s+n);
+                if (s == 'm' && n > 1 && n < 9 )                 continue
+                else if (hongpai[s] && n == 5 && i < hongpai[s]) pai.push(s+0);
+                else                                             pai.push(s+n);
             }
         }
     }

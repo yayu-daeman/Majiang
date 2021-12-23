@@ -10,7 +10,7 @@ function _xiangting(m, d, g, j) {
     if (m + d     > 4) { g += m + d - 4; d = 4 - m     }
     if (m + d + g > n) {                 g = n - m - d }
     if (j) d++;
-    return 13 - m * 3 - d * 2 - g;
+    return 12 - m * 3 - d * 2 - g;
 }
 
 function dazi(bingpai) {
@@ -130,7 +130,7 @@ function xiangting_guoshi(shoupai) {
         }
     }
 
-    return n_duizi ? 12 - n_yaojiu : 13 - n_yaojiu;
+    return n_duizi ? 11 - n_yaojiu : 12 - n_yaojiu;
 }
 
 function xiangting_qidui(shoupai) {
@@ -143,7 +143,8 @@ function xiangting_qidui(shoupai) {
     for (let s of ['m','p','s','z']) {
         let bingpai = shoupai._bingpai[s];
         for (let n = 1; n < bingpai.length; n++) {
-            if      (bingpai[n] >= 2) n_duizi++;
+            if      (bingpai[n] == 4) n_duizi = n_duizi + 2;
+            else if (bingpai[n] >= 2) n_duizi++;
             else if (bingpai[n] == 1) n_guli++;
         }
     }
@@ -151,7 +152,7 @@ function xiangting_qidui(shoupai) {
     if (n_duizi          > 7) n_duizi = 7;
     if (n_duizi + n_guli > 7) n_guli  = 7 - n_duizi;
 
-    return 13 - n_duizi * 2 - n_guli;
+    return 12 - n_duizi * 2 - n_guli;
 }
 
 function xiangting(shoupai) {
