@@ -144,7 +144,10 @@ function xiangting_qidui(shoupai) {
         let bingpai = shoupai._bingpai[s];
         for (let n = 1; n < bingpai.length; n++) {
             if      (bingpai[n] == 4) n_duizi = n_duizi + 2;
-            else if (bingpai[n] >= 2) n_duizi++;
+            else if (bingpai[n] >= 2) {
+                n_duizi++;
+                if (bingpai[n] == 3) n_guli++;
+            }
             else if (bingpai[n] == 1) n_guli++;
         }
     }
