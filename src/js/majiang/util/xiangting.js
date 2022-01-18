@@ -62,10 +62,16 @@ function mianzi(bingpai, n = 1) {
 function mianzi_all(shoupai, jiangpai) {
 
     let r = {
-        m: mianzi(shoupai._bingpai.m),
         p: mianzi(shoupai._bingpai.p),
         s: mianzi(shoupai._bingpai.s),
     };
+
+    let m = [0, 0, 0];
+    for (let n = 1; n <= 9; n=n+8) {
+        if      (shoupai._bingpai.m[n] >= 3) m[0]++;
+        else if (shoupai._bingpai.m[n] == 2) m[1]++;
+        else if (shoupai._bingpai.m[n] == 1) m[2]++;      
+    }
 
     let z = [0, 0, 0];
     for (let n = 1; n <= 7; n++) {
@@ -78,16 +84,14 @@ function mianzi_all(shoupai, jiangpai) {
 
     let min = 13;
 
-    for (let m of [r.m.a, r.m.b]) {
-        for (let p of [r.p.a, r.p.b]) {
-            for (let s of [r.s.a, r.s.b]) {
-                let x = [n_fulou, 0, 0];
-                for (let i = 0; i < 3; i++) {
-                    x[i] += m[i] + p[i] + s[i] + z[i];
-                }
-                let n_xiangting = _xiangting(x[0], x[1], x[2], jiangpai);
-                if (n_xiangting < min) min = n_xiangting;
+    for (let p of [r.p.a, r.p.b]) {
+        for (let s of [r.s.a, r.s.b]) {
+            let x = [n_fulou, 0, 0];
+            for (let i = 0; i < 3; i++) {
+                x[i] += m[i] + p[i] + s[i] + z[i];
             }
+            let n_xiangting = _xiangting(x[0], x[1], x[2], jiangpai);
+            if (n_xiangting < min) min = n_xiangting;
         }
     }
 

@@ -30,7 +30,7 @@ function qipai(paistr) {
 
     if (paistr) history.replaceState('', '', `#${paistr}`);
 
-    model.shan = new Majiang.Shan({m:1,p:1,s:1});
+    model.shan = new Majiang.Shan({m:2,p:2,s:2});
 
     if (paistr) {
         model.shoupai = Majiang.Shoupai.fromString(paistr);
