@@ -219,7 +219,7 @@ $(function(){
     }
     else {
         $('form input[name="paistr"]').focus();
-        $('form input[name="paistr"]').val('m11p123s5s7,s1-11,z222=');
+        $('form input[name="paistr"]').val('m11p123s5s7,s111-,z222=');
         $('form input[name="baopai"]').eq(0).val('z1');
     }
 });
