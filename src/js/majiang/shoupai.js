@@ -65,7 +65,7 @@ static fromString(paistr) {
             qipai.push(s+n);
         }
     }
-    while (qipai.length > 13 - fulou.filter(x=>x).length * 3) qipai.pop();
+    while (qipai.length > 14 - fulou.filter(x=>x).length * 3) qipai.pop();
     let zimo = (qipai.length - 1) % 3 == 0 && qipai.slice(-1)[0];
     const shoupai = new Shoupai(qipai);
 

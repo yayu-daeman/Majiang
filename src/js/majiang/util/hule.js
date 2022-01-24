@@ -3,7 +3,10 @@
  */
 "use strict";
 
-const Majiang = { Shan: require('../shan') };
+const Majiang = { 
+    Shan:    require('../shan'),
+    Shoupai: require('../shoupai'),
+};
 
 function mianzi(s, bingpai, n = 1) {
 
@@ -114,6 +117,14 @@ function hule_mianzi_qidui(shoupai, hulepai) {
             if (bingpai[n] == 0) continue;
             if (bingpai[n] == 2) {
                 let m = (s+n == hulepai.substr(0,2))
+                            ? s+n+n + hulepai[2] + '!'
+                            : s+n+n;
+                mianzi.push(m);
+            }
+            else if (bingpai[n] == 4) {
+                let m = s+n+n;
+                mianzi.push(m);
+                m = (s+n == hulepai.substr(0,2))
                             ? s+n+n + hulepai[2] + '!'
                             : s+n+n;
                 mianzi.push(m);
@@ -661,24 +672,32 @@ function get_defen(fu, hupai, rongpai, param) {
     };
 }
 
-function hule(shoupai, rongpai, param) {
+function hule(shoupai, rongpai, param, tingpai) {
 
     let max;
 
-    let pre_hupai  = get_pre_hupai(param.hupai);
-    let post_hupai = get_post_hupai(shoupai.toString(),
-                                    param.baopai, param.fubaopai);
+    for (let xinzhipai of tingpai) {
+        let new_shoupai = shoupai.clone()
+        for (let s of ['m','p','s','z']) {
+            for (let n = 1; n <= (s == 'z' ? 7 : 9); n++) {
+                if(s+n == xinzhipai.substr(0,2)) new_shoupai._bingpai[s][n]++;
+            }
+        }
+        let pre_hupai  = get_pre_hupai(param.hupai);
+        let post_hupai = get_post_hupai(new_shoupai.toString(),
+                                        param.baopai, param.fubaopai);
 
-    for (let mianzi of hule_mianzi(shoupai, rongpai)) {
+        for (let mianzi of hule_mianzi(new_shoupai, rongpai)) {
 
-        let hudi  = get_hudi(mianzi, param.zhuangfeng, param.menfeng);
-        let hupai = get_hupai(mianzi, hudi, pre_hupai, post_hupai);
-        let rv    = get_defen(hudi.fu, hupai, rongpai, param);
+            let hudi  = get_hudi(mianzi, param.zhuangfeng, param.menfeng);
+            let hupai = get_hupai(mianzi, hudi, pre_hupai, post_hupai);
+            let rv    = get_defen(hudi.fu, hupai, rongpai, param);
 
-        if (! max || rv.defen > max.defen
-            || rv.defen == max.defen
+            if (! max || rv.defen > max.defen
+                || rv.defen == max.defen
                 && (! rv.fanshu || rv.fanshu > max.fanshu
-                    || rv.fanshu == max.fanshu && rv.fu > max.fu)) max = rv;
+                || rv.fanshu == max.fanshu && rv.fu > max.fu)) max = rv;
+        }
     }
 
     return max;

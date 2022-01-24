@@ -172,7 +172,7 @@ function xiangting(shoupai) {
 
 function tingpai(shoupai, f_xiangting = xiangting) {
 
-    if (shoupai._zimo) throw new Error(shoupai);
+    //if (shoupai._zimo) throw new Error(shoupai);
 
     let pai = [];
     let n_xiangting = f_xiangting(shoupai);

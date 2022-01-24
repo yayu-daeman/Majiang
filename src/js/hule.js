@@ -65,7 +65,8 @@ $(function(){
             jicun:      { changbang: 0, lizhibang: 0 }
         };
 
-        let hule = Majiang.Util.hule(shoupai, rongpai, param);
+        let tingpai = Majiang.Util.tingpai(shoupai);
+        let hule = Majiang.Util.hule(shoupai, rongpai, param, tingpai);
         let info = {
             shoupai:  shoupai,
             hule:     hule,
@@ -218,7 +219,7 @@ $(function(){
     }
     else {
         $('form input[name="paistr"]').focus();
-        $('form input[name="paistr"]').val('m123p123z1z1,s1-23,z222=');
+        $('form input[name="paistr"]').val('m11p123s5s7,s1-11,z222=');
         $('form input[name="baopai"]').eq(0).val('z1');
     }
 });
