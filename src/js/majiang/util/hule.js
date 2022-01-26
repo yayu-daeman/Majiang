@@ -6,6 +6,7 @@
 const Majiang = { 
     Shan:    require('../shan'),
     Shoupai: require('../shoupai'),
+    Util:    require('../util'),
 };
 
 function mianzi(s, bingpai, n = 1) {
@@ -378,6 +379,10 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
         return [];
     }
     function qiduizi() {
+        for (let s of ['p','s']) {
+            const yise = new RegExp(`^[z${s}]`);
+            if (mianzi.filter(m=>m.match(yise)).length == mianzi.length)    return[];
+        }
         if (mianzi.length == 7) return [{ name: '七対子', fanshu: 2 }];
         return [];
     }
@@ -417,9 +422,11 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
     function hunyise() {
         for (let s of ['m','p','s']) {
             const yise = new RegExp(`^[z${s}]`);
-            if (mianzi.filter(m=>m.match(yise)).length == mianzi.length
-                    && hudi.n_zipai > 0)
-                    return [{ name: '混一色', fanshu: (hudi.menqian ? 3 : 2) }];
+            if ((mianzi.filter(m=>m.match(yise)).length == mianzi.length)
+                && (mianzi.length != 7)
+                && (hudi.n_zipai > 0)) {
+                return [{ name: '混一色', fanshu: (hudi.menqian ? 3 : 2) }];
+                }
         }
         return [];
     }
@@ -442,6 +449,26 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
             if (mianzi.filter(m=>m.match(yise)).length == mianzi.length
                     && hudi.n_zipai == 0)
                     return [{ name: '清一色', fanshu: (hudi.menqian ? 6 : 5) }];
+        }
+        return [];
+    }
+    function hunyiseqiduizi() {
+        for (let s of ['p','s']) {
+            const yise = new RegExp(`^[z${s}]`);
+            if (mianzi.filter(m=>m.match(yise)).length != mianzi.length
+                    && mianzi.length == 7
+                    && hudi.n_zipai > 0)
+                    return [{ name: '混一色七対子', fanshu: 6 }];
+        }
+        return [];
+    }
+    function sanlianke() {
+        const kezi = hudi.kezi;
+        for (let s of ['m','p','s']) {
+            for (let n = 1; n <= 7; n++) {
+                if (kezi[s][n] && kezi[s][n+1] && kezi[s][n+2])
+                return [{ name: '三連刻', fanshu: 2 }];
+            }
         }
         return [];
     }
@@ -509,6 +536,34 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
                                 return [{ name: '純正九蓮宝燈', fanshu: '**' }];
         else                    return [{ name: '九蓮宝燈', fanshu: '*' }];
     }
+    function wanzihunyise() {
+        for (let s of ['m']) {
+            const yise = new RegExp(`^[z${s}]`);
+            if (mianzi.filter(m=>m.match(yise)).length == mianzi.length
+                    && hudi.n_zipai > 0 && (hudi.n_zipai != mianzi.length))
+                    return [{ name: '萬子混一色', fanshu: '*' }];
+        }
+        return [];
+    }
+    function qingyiseqiduizi() {
+        for (let s of ['p','s']) {
+            const yise = new RegExp(`^[z${s}]`);
+            if ((mianzi.filter(m=>m.match(yise)).length == 7)
+                    && (hudi.n_zipai == 0))
+                    return [{ name: '清一色七対子', fanshu: '*' }];
+        }
+        return [];
+    }
+    function silianke() {
+        const kezi = hudi.kezi;
+        for (let s of ['p','s']) {
+            for (let n = 1; n <= 6; n++) {
+                if (kezi[s][n] && kezi[s][n+1] && kezi[s][n+2] && kezi[s][n+3])
+                return [{ name: '四連刻', fanshu: '*' }];
+            }
+        }
+        return [];
+    }
 
     let damanguan = (pre_hupai.length > 0 && pre_hupai[0].fanshu[0] == '*')
                         ? pre_hupai : [];
@@ -521,7 +576,10 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
                 .concat(lvyise())
                 .concat(qinglaotou())
                 .concat(sigangzi())
-                .concat(jiulianbaodeng());
+                .concat(jiulianbaodeng())
+                .concat(wanzihunyise())
+                .concat(qingyiseqiduizi())
+                .concat(silianke());;
 
     if (damanguan.length > 0) return damanguan;
 
@@ -544,7 +602,9 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
                 .concat(hunyise())
                 .concat(chunquandaiyaojiu())
                 .concat(erbeikou())
-                .concat(qingyise());
+                .concat(qingyise())
+                .concat(hunyiseqiduizi())
+                .concat(sanlianke());
 
     if (hupai.length > 0) hupai = hupai.concat(post_hupai);
 
@@ -672,9 +732,10 @@ function get_defen(fu, hupai, rongpai, param) {
     };
 }
 
-function hule(shoupai, rongpai, param, tingpai) {
+function hule(shoupai, rongpai, param) {
 
     let max;
+    let tingpai = Majiang.Util.tingpai(shoupai);
 
     for (let xinzhipai of tingpai) {
         let new_shoupai = shoupai.clone()

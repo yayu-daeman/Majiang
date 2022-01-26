@@ -65,8 +65,7 @@ $(function(){
             jicun:      { changbang: 0, lizhibang: 0 }
         };
 
-        let tingpai = Majiang.Util.tingpai(shoupai);
-        let hule = Majiang.Util.hule(shoupai, rongpai, param, tingpai);
+        let hule = Majiang.Util.hule(shoupai, rongpai, param);
         let info = {
             shoupai:  shoupai,
             hule:     hule,

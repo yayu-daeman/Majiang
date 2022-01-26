@@ -33,8 +33,15 @@ constructor(hongpai = {m:0,p:0,s:0}) {
 static zhenbaopai(p) {
     if (! Majiang.Shoupai.valid_pai(p)) throw new Error(p);
     let [s, n] = p;
-    return (s == 'z') ? (n < 5  ? s + (n % 4 + 1) : s + ((n - 4) % 3 + 5))
-                      : (n == 0 ? s + 6 : s + (n % 9 + 1));
+    if (s == 'z'){
+        return n < 5  ? s + (n % 4 + 1) : s + ((n - 4) % 3 + 5);
+    }
+    else if (s == 'm'){
+        return n == 1 ? s + 9 : s + 1;
+    }
+    else {
+        return n == 0 ? s + 6 : s + (n % 9 + 1);
+    }
 }
 
 paishu() {
