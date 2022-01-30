@@ -455,7 +455,7 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
     function hunyiseqiduizi() {
         for (let s of ['p','s']) {
             const yise = new RegExp(`^[z${s}]`);
-            if (mianzi.filter(m=>m.match(yise)).length != mianzi.length
+            if (mianzi.filter(m=>m.match(yise)).length == mianzi.length
                     && mianzi.length == 7
                     && hudi.n_zipai > 0)
                     return [{ name: '混一色七対子', fanshu: 6 }];
@@ -540,7 +540,7 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
         for (let s of ['m']) {
             const yise = new RegExp(`^[z${s}]`);
             if (mianzi.filter(m=>m.match(yise)).length == mianzi.length
-                    && hudi.n_zipai > 0 && (hudi.n_zipai != mianzi.length))
+                    && hudi.n_zipai > 0 && hudi.n_zipai != mianzi.length)
                     return [{ name: '萬子混一色', fanshu: '*' }];
         }
         return [];
@@ -548,8 +548,8 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
     function qingyiseqiduizi() {
         for (let s of ['p','s']) {
             const yise = new RegExp(`^[z${s}]`);
-            if ((mianzi.filter(m=>m.match(yise)).length == 7)
-                    && (hudi.n_zipai == 0))
+            if (mianzi.filter(m=>m.match(yise)).length == 7
+                    && hudi.n_zipai == 0)
                     return [{ name: '清一色七対子', fanshu: '*' }];
         }
         return [];
@@ -611,7 +611,7 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
     return hupai;
 }
 
-function get_post_hupai(paistr, baopai, fubaopai) {
+function get_post_hupai(paistr, baopai, fubaopai, otafuku) {
 
     let post_hupai = [];
 
@@ -647,6 +647,7 @@ function get_post_hupai(paistr, baopai, fubaopai) {
         }
     }
     if (n_fubaopai) post_hupai.push({ name: '裏ドラ', fanshu: n_fubaopai });
+    if (otafuku.length > 4) post_hupai.push({ name: 'お多福', fanshu: otafuku.length  - 4 });
 
     return post_hupai;
 }
@@ -737,16 +738,25 @@ function hule(shoupai, rongpai, param) {
     let max;
     let tingpai = Majiang.Util.tingpai(shoupai);
 
+    let otafuku_paistr = shoupai.toString();
+    let otafuku_regexp = new RegExp('\\w{1,}');
+    otafuku_paistr = otafuku_paistr.match(otafuku_regexp);
+    otafuku_paistr = otafuku_paistr.join('');
+    otafuku_paistr = otafuku_paistr.slice(0,-2);
+    let otafuku_shoupai = Majiang.Shoupai.fromString(otafuku_paistr);
+    let otafuku = Majiang.Util.tingpai(otafuku_shoupai);
+
     for (let xinzhipai of tingpai) {
-        let new_shoupai = shoupai.clone()
+        let new_shoupai = shoupai.clone();
         for (let s of ['m','p','s','z']) {
             for (let n = 1; n <= (s == 'z' ? 7 : 9); n++) {
                 if(s+n == xinzhipai.substr(0,2)) new_shoupai._bingpai[s][n]++;
             }
         }
         let pre_hupai  = get_pre_hupai(param.hupai);
+        
         let post_hupai = get_post_hupai(new_shoupai.toString(),
-                                        param.baopai, param.fubaopai);
+                                        param.baopai, param.fubaopai, otafuku);
 
         for (let mianzi of hule_mianzi(new_shoupai, rongpai)) {
 
