@@ -13,17 +13,33 @@ function _xiangting(m, d, g, j) {
     return 12 - m * 3 - d * 2 - g;
 }
 
-function dazi(bingpai) {
+function dazi(bingpai,shoupai,s) {
 
     let n_pai = 0, n_dazi = 0, n_guli = 0;
+    let paistr = shoupai.toString();
+    let n_1_sizhang  = true;
+    let n_2_sizhang = true;
 
     for (let n = 1; n <= 9; n++) {
         n_pai += bingpai[n];
+        if (n <= 7 && ((n_2_sizhang && sizhang(paistr,s,n+1) && bingpai[n+1] == 0) || 
+                       (n_1_sizhang && sizhang(paistr,s,n+2) && bingpai[n+2] == 0))){
+            n_dazi += n_pai >> 1;
+            n_guli += n_pai  % 2;
+            n_pai = 0;
+        }
         if (n <= 7 && bingpai[n+1] == 0 && bingpai[n+2] == 0) {
             n_dazi += n_pai >> 1;
             n_guli += n_pai  % 2;
             n_pai = 0;
         }
+        if (n >= 8 && n_1_sizhang) {
+            n_dazi += n_pai >> 1;
+            n_guli += n_pai  % 2;
+            n_pai = 0;
+        }
+        n_1_sizhang = sizhang(paistr,s,n) && bingpai[n] == 0;
+        if (n >=2 ) n_2_sizhang = sizhang(paistr,s,n-1) && bingpai[n-1] == 0;
     }
     n_dazi += n_pai >> 1;
     n_guli += n_pai  % 2;
@@ -32,15 +48,15 @@ function dazi(bingpai) {
              b: [ 0, n_dazi, n_guli ] };
 }
 
-function mianzi(bingpai, n = 1) {
+function mianzi(bingpai, shoupai, s, n = 1) {
 
-    if (n > 9) return dazi(bingpai);
+    if (n > 9) return dazi(bingpai,shoupai,s);
 
-    let max = mianzi(bingpai, n+1);
+    let max = mianzi(bingpai, shoupai, s, n+1);
 
     if (n <= 7 && bingpai[n] > 0 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
         bingpai[n]--; bingpai[n+1]--; bingpai[n+2]--;
-        let r = mianzi(bingpai, n);
+        let r = mianzi(bingpai, shoupai, s, n);
         bingpai[n]++; bingpai[n+1]++; bingpai[n+2]++;
         r.a[0]++; r.b[0]++;
         if (r.a[0]* 2 + r.a[1] > max.a[0]* 2 + max.a[1]) max.a = r.a;
@@ -49,7 +65,7 @@ function mianzi(bingpai, n = 1) {
 
     if (bingpai[n] >= 3) {
         bingpai[n] -= 3;
-        let r = mianzi(bingpai, n);
+        let r = mianzi(bingpai, shoupai, s, n);
         bingpai[n] += 3;
         r.a[0]++; r.b[0]++;
         if (r.a[0]* 2 + r.a[1] > max.a[0]* 2 + max.a[1]) max.a = r.a;
@@ -62,8 +78,8 @@ function mianzi(bingpai, n = 1) {
 function mianzi_all(shoupai, jiangpai) {
 
     let r = {
-        p: mianzi(shoupai._bingpai.p),
-        s: mianzi(shoupai._bingpai.s),
+        p: mianzi(shoupai._bingpai.p, shoupai, 'p'),
+        s: mianzi(shoupai._bingpai.s, shoupai, 's'),
     };
 
     let m = [0, 0, 0];
@@ -176,16 +192,34 @@ function tingpai(shoupai, f_xiangting = xiangting) {
 
     let pai = [];
     let n_xiangting = f_xiangting(shoupai);
+    let paistr = shoupai.toString();
     for (let s of ['m','p','s','z']) {
         let bingpai = shoupai._bingpai[s];
         for (let n = 1; n < bingpai.length; n++) {
-            if (bingpai[n] >= 4) continue;
+            if (sizhang(paistr,s,n)) continue;
             bingpai[n]++;
             if (f_xiangting(shoupai) < n_xiangting) pai.push(s+n);
             bingpai[n]--;
         }
     }
     return pai;
+}
+
+function sizhang(paistr,s,n) {
+    let exppaistr    = new RegExp(s+'\\d{1,}(\\W{1,})?(\\d{1,})?','g');
+    let paishu = paistr.match(exppaistr);
+    if (!paishu) return false;
+    paishu = paishu.join();
+    if(paishu){
+        exppaistr = new RegExp(n,'g');
+        paishu = paishu.match(exppaistr);
+        if(!paishu) return false;
+        else if (paishu.length == 4) return true;
+        else return false;
+    }
+    else {
+        return false;
+    }
 }
 
 module.exports = {
