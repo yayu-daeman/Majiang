@@ -17,13 +17,18 @@ function dazi(bingpai,shoupai,s) {
 
     let n_pai = 0, n_dazi = 0, n_guli = 0;
     let paistr = shoupai.toString();
+    paistr = paistr.replace(/0/g,'5');
     let n_1_sizhang  = true;
-    let n_2_sizhang = true;
 
     for (let n = 1; n <= 9; n++) {
         n_pai += bingpai[n];
-        if (n <= 7 && ((n_2_sizhang && sizhang(paistr,s,n+1) && bingpai[n+1] == 0) || 
-                       (n_1_sizhang && sizhang(paistr,s,n+2) && bingpai[n+2] == 0))){
+
+        if (n <= 7 && n_1_sizhang && sizhang(paistr,s,n+2) && bingpai[n+2] == 0){
+            n_dazi += n_pai >> 1;
+            n_guli += n_pai  % 2;
+            n_pai = 0;
+        }
+        if (n <= 8 && sizhang(paistr,s,n+1) && bingpai[n+1] == 0){
             n_dazi += n_pai >> 1;
             n_guli += n_pai  % 2;
             n_pai = 0;
@@ -39,7 +44,6 @@ function dazi(bingpai,shoupai,s) {
             n_pai = 0;
         }
         n_1_sizhang = sizhang(paistr,s,n) && bingpai[n] == 0;
-        if (n >=2 ) n_2_sizhang = sizhang(paistr,s,n-1) && bingpai[n-1] == 0;
     }
     n_dazi += n_pai >> 1;
     n_guli += n_pai  % 2;
@@ -193,6 +197,7 @@ function tingpai(shoupai, f_xiangting = xiangting) {
     let pai = [];
     let n_xiangting = f_xiangting(shoupai);
     let paistr = shoupai.toString();
+    paistr = paistr.replace(/0/g,'5');
     for (let s of ['m','p','s','z']) {
         let bingpai = shoupai._bingpai[s];
         for (let n = 1; n < bingpai.length; n++) {
