@@ -739,10 +739,8 @@ function hule(shoupai, rongpai, param) {
     let tingpai = Majiang.Util.tingpai(shoupai);
 
     let otafuku_paistr = shoupai.toString();
-    let otafuku_regexp = new RegExp('\\w{1,}');
-    otafuku_paistr = otafuku_paistr.match(otafuku_regexp);
-    otafuku_paistr = otafuku_paistr.join('');
-    otafuku_paistr = otafuku_paistr.slice(0,-2);
+    let otafuku_regexp = /\w{1}\d{1},/i;
+    otafuku_paistr = otafuku_paistr.replace(otafuku_regexp,',')
     let otafuku_shoupai = Majiang.Shoupai.fromString(otafuku_paistr);
     let otafuku = Majiang.Util.tingpai(otafuku_shoupai);
 
