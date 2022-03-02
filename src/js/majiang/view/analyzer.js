@@ -117,7 +117,7 @@ action_zimo(zimo, option) {
 action_dapai(dapai) {
 
     if (this.allow_hule(dapai)
-        || this.get_chi_mianzi(dapai).length
+        //|| this.get_chi_mianzi(dapai).length
         || this.get_peng_mianzi(dapai).length
         || this.get_gang_mianzi(dapai).length)  this.active(true);
     else if (dapai.l != this._model.menfeng)    this.active(false);
@@ -218,7 +218,7 @@ redraw_status(info) {
               ! m && i.n_xiangting == -1   ? '和了'
             : m.match(/^[mpsz](\d)\1\1\1/) ? 'カン'
             : m.match(/^[mpsz](\d)\1\1/)   ? 'ポン'
-            : m.match(/^[mps]/)            ? 'チー'
+            //: m.match(/^[mps]/)            ? 'チー'
             :                                ''
         );
         $('.status', this._root).append(row);

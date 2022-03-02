@@ -233,12 +233,12 @@ get_dapai() {
     return  Majiang.Game.get_dapai(this._shoupai);
 }
 
-get_chi_mianzi(dapai) {
+/*get_chi_mianzi(dapai) {
     let model = this._model;
     let p = dapai.p
           + ['','+','=','-'][(4 + dapai.l - model.menfeng) % 4];
     return Majiang.Game.get_chi_mianzi(this._shoupai, p, this._paishu);
-}
+}*/
 
 get_peng_mianzi(dapai) {
     let model = this._model;
@@ -299,7 +299,7 @@ select_fulou(dapai, info) {
 
         let mianzi = this.get_gang_mianzi(dapai)
                         .concat(this.get_peng_mianzi(dapai))
-                        .concat(this.get_chi_mianzi(dapai));
+                        //.concat(this.get_chi_mianzi(dapai));
         if (! mianzi.length && ! info) return;
 
         let fulou;
@@ -338,7 +338,7 @@ select_fulou(dapai, info) {
     else {
 
         let mianzi = this.get_peng_mianzi(dapai)
-                        .concat(this.get_chi_mianzi(dapai));
+                        //.concat(this.get_chi_mianzi(dapai));
         if (! mianzi.length && ! info) return;
 
         n_xiangting = this.xiangting(this._shoupai);
@@ -689,13 +689,13 @@ tingpai(shoupai) {
             }
             if (pai[pai.length - 1] == p+'+') continue;
 
-            for (let m of shoupai.get_chi_mianzi(p+'-')) {
+            /*for (let m of shoupai.get_chi_mianzi(p+'-')) {
                 let new_shoupai = shoupai.clone().fulou(m);
                 if (this.xiangting(new_shoupai) < n_xiangting) {
                     pai.push(p+'-');
                     break;
                 }
-            }
+            }*/
             if (pai[pai.length - 1] == p+'-') continue;
         }
         pai.push(p);
@@ -807,12 +807,12 @@ eval_fulou(shoupai, p, paishu, dapai) {
     }
 
     let chi_max = 0;
-    for (let m of shoupai.get_chi_mianzi(p+'-')) {
+    /*for (let m of shoupai.get_chi_mianzi(p+'-')) {
         let new_shoupai = shoupai.clone().fulou(m);
         if (Majiang.Util.xiangting(new_shoupai) >= n_xiangting) continue;
         chi_max  = Math.max(this.eval_shoupai(new_shoupai, paishu, dapai),
                             chi_max);
-    }
+    }*/
 
     return (peng_max > chi_max) ? peng_max * 3 : peng_max * 2 + chi_max;
 }

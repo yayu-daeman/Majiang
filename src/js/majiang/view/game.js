@@ -15,7 +15,7 @@ const view_class = ['main','xiajia','duimian','shangjia'];
 const feng_hanzi = ['東','南','西','北'];
 const shu_hanzi  = ['一','二','三','四'];
 
-const say_text   = {    chi:    'チー',
+const say_text   = {    //chi:    'チー',
                         peng:   'ポン',
                         gang:   'カン',
                         lizhi:  'リーチ',
@@ -160,7 +160,7 @@ update(data = {}) {
     }
 
     if (   (this._say[this._lunban] == 'lizhi')
-        || (this._say[this._lunban] == 'chi'   && ! data.fulou)
+        //|| (this._say[this._lunban] == 'chi'   && ! data.fulou)
         || (this._say[this._lunban] == 'peng'  && ! data.fulou)
         || (this._say[this._lunban] == 'gang'
                             && !(data.fulou || data.gang || data.kaigang)))
@@ -395,7 +395,7 @@ function get_audio() {
     if (_audio) return _audio;
 
     _audio = {};
-    for (let name of ['dapai','chi','peng','gang','rong','zimo','lizhi']) {
+    for (let name of ['dapai',/*'chi',*/'peng','gang','rong','zimo','lizhi']) {
         _audio[name] = [];
         for (let l = 0; l < 4; l++) {
             _audio[name][l] = audio(name);

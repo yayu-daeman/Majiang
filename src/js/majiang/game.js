@@ -134,7 +134,7 @@ qipai(shan) {
     model.shan = shan || new Majiang.Shan(this._hongpai);
     let qipai = [ [], [], [], []];
     for (let l = 0; l < 4; l++) {
-        for (let i = 0; i < 13; i++) {
+        for (let i = 0; i < 12; i++) {
             qipai[l].push(model.shan.zimo());
         }
         model.shoupai[l]   = new Majiang.Shoupai(qipai[l]);

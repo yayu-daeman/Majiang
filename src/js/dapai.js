@@ -66,7 +66,7 @@ function submit() {
     let hongpai    = $('input[name="hongpai"]').prop('checked');
 
     const analyzer = init_analyzer(paistr, zhuangfeng, menfeng, baopai, hongpai
-                        ? { m: 1, p: 1, s: 1 }
+                        ? { m: 0, p: 2, s: 2 }
                         : { m: 0, p: 0, s: 0 });
 
     new Majiang.View.Shan('.shan', new Shan(analyzer._baopai)).redraw();
@@ -123,7 +123,7 @@ $(function(){
         submit();
     }
     else {
-        $('input[name="paistr"]').val('m123p1234789s338s8').focus();
+        $('input[name="paistr"]').val('p1234567s1238s8').focus();
         $('input[name="baopai"]').eq(0).val('s3');
     }
 });

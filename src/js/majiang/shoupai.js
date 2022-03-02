@@ -65,7 +65,7 @@ static fromString(paistr) {
             qipai.push(s+n);
         }
     }
-    while (qipai.length > 14 - fulou.filter(x=>x).length * 3) qipai.pop();
+    while (qipai.length > 13 - fulou.filter(x=>x).length * 3) qipai.pop();
     let zimo = (qipai.length - 1) % 3 == 0 && qipai.slice(-1)[0];
     const shoupai = new Shoupai(qipai);
 
@@ -252,7 +252,7 @@ get_dapai() {
     return pai;
 }
 
-get_chi_mianzi(p) {
+/*get_chi_mianzi(p) {
 
     if (! Shoupai.valid_pai(p))                 throw new Error(p);
     if (this._zimo)                             throw new Error([this,p]);
@@ -271,25 +271,25 @@ get_chi_mianzi(p) {
         p1 = hongpai_first(n-2);
         p2 = hongpai_first(n-1);
         if ((3 < n ? bingpai[n-3] : 0) + bingpai[n]
-                < 14 - (this._fulou.length + 1) * 3)
+                < 13 - (this._fulou.length + 1) * 3)
                                         mianzi.push(s + p1 + p2 + (p0+d));
     }
     if (2 <= n && n <= 8 && bingpai[n-1] > 0 && bingpai[n+1] > 0) {
         p1 = hongpai_first(n-1);
         p2 = hongpai_first(n+1);
-        if (bingpai[n] < 14 - (this._fulou.length + 1) * 3)
+        if (bingpai[n] < 13 - (this._fulou.length + 1) * 3)
                                         mianzi.push(s + p1 + (p0+d) + p2);
     }
     if (n <= 7 && bingpai[n+1] > 0 && bingpai[n+2] > 0) {
         p1 = hongpai_first(n+1);
         p2 = hongpai_first(n+2);
         if (bingpai[n] + (n < 7 ? bingpai[n+3] : 0)
-                < 14 - (this._fulou.length + 1) * 3)
+                < 13 - (this._fulou.length + 1) * 3)
                                         mianzi.push(s + (p0+d) + p1 + p2);
     }
 
     return mianzi;
-}
+}*/
 
 get_peng_mianzi(p) {
 

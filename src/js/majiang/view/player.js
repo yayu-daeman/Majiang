@@ -174,13 +174,13 @@ action_dapai(dapai) {
         this.set_button('peng', ()=>this.callback({fulou: peng_mianzi[0]}));
     }
 
-    let chi_mianzi = this.get_chi_mianzi(dapai);
+    /*let chi_mianzi = this.get_chi_mianzi(dapai);
     if (chi_mianzi.length == 1) {
         this.set_button('chi', ()=>this.callback({fulou: chi_mianzi[0]}));
     }
     else if (chi_mianzi.length > 1) {
         this.set_button('chi', ()=>set_chi_handler(chi_mianzi));
-    }
+    }*/
 
     this.show_button();
 
