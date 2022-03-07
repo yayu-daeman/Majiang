@@ -232,5 +232,6 @@ module.exports = {
     xiangting_qidui:  xiangting_qidui,
     xiangting_yiban:  xiangting_yiban,
     xiangting:        xiangting,
-    tingpai:          tingpai
+    tingpai:          tingpai,
+    sizhang:          sizhang
 }

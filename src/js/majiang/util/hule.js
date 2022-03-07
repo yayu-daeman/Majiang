@@ -328,7 +328,7 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
         return [];
     }
     function fanpai() {
-        let feng_hanzi = ['東','南','西','北'];
+        let feng_hanzi = ['東','南','西'];
         let fanpai_all = [];
         if (hudi.kezi.z[hudi.zhuangfeng+1])
                 fanpai_all.push({ name: '場風 '+feng_hanzi[hudi.zhuangfeng],
@@ -336,6 +336,7 @@ function get_hupai(mianzi, hudi, pre_hupai, post_hupai) {
         if (hudi.kezi.z[hudi.menfeng+1])
                 fanpai_all.push({ name: '自風 '+feng_hanzi[hudi.menfeng],
                                   fanshu: 1 });
+        if (hudi.kezi.z[4]) fanpai_all.push({ name: '翻牌 北', fanshu: 1 });
         if (hudi.kezi.z[5]) fanpai_all.push({ name: '翻牌 白', fanshu: 1 });
         if (hudi.kezi.z[6]) fanpai_all.push({ name: '翻牌 發', fanshu: 1 });
         if (hudi.kezi.z[7]) fanpai_all.push({ name: '翻牌 中', fanshu: 1 });
@@ -649,6 +650,17 @@ function get_post_hupai(paistr, baopai, fubaopai, otafuku) {
     if (n_fubaopai) post_hupai.push({ name: '裏ドラ', fanshu: n_fubaopai });
     if (otafuku.length > 4) post_hupai.push({ name: 'お多福', fanshu: otafuku.length  - 4 });
 
+    let sizhang = 0;
+    paistr = paistr.replace(/0/g,'5');
+    for (let s of ['m','p','s','z']) {
+        let nn = (s == 'z') ? 7 : 9;
+        for (let n = 1 ; n <= nn ; n++ ) {
+            if (Majiang.Util.sizhang(paistr,s,n)) sizhang++;
+        }
+    }
+
+    if (sizhang > 0) post_hupai.push({ name: 'ヨンチョロ', fanshu: sizhang });
+
     return post_hupai;
 }
 
@@ -738,9 +750,14 @@ function hule(shoupai, rongpai, param) {
     let max;
     let tingpai = Majiang.Util.tingpai(shoupai);
 
-    let otafuku_paistr = shoupai.toString();
+    let paistr = shoupai.toString();
     let otafuku_regexp = /\w{1}\d{1},/i;
-    otafuku_paistr = otafuku_paistr.replace(otafuku_regexp,',')
+    let otafuku_paistr = paistr.replace(otafuku_regexp,',')
+
+    if (paistr == otafuku_paistr) {
+        otafuku_regexp = /\w{1}\d{1}$/i;
+        otafuku_paistr = paistr.replace(otafuku_regexp,'')
+    }
     let otafuku_shoupai = Majiang.Shoupai.fromString(otafuku_paistr);
     let otafuku = Majiang.Util.tingpai(otafuku_shoupai);
 
